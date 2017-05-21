@@ -57,8 +57,7 @@ The same output as No.4 but requires 4 measured RPMs on each motor of a 4WD robo
 #### 2. velocities
   Struct returned by getVelocities() used to store linear velocities in x and y axis, and angular velocity in z axis (right hand rule).
   ```
-  struct velocities
-  {
+  struct velocities{
     float linear_x;
     float linear_y;
     float angular_z;
