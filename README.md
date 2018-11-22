@@ -4,7 +4,7 @@ Arduino Kinematics library for differential drive(2WD, 4WD) and mecanum drive ro
 The library requires the following robot's specification as an input:
 
   - Robot's maximum RPM
-  - Distance between wheels (base width)
+  - Distance between wheels (Front-Left and Front-Rear )
   - Wheel's Diameter
 
 ## Functions
@@ -15,7 +15,7 @@ Object constructor which requires the robot's specification.
   - WHEEL_DIAMETER : Robot wheel's diameter expressed in meters
   - FR_WHEEL_DISTANCE : Distance between front wheel and rear wheel
   - LR_WHEEL_DISTANCE : Distance between left wheel and right wheel
-  - PWM_BITS : 
+  - PWM_BITS : PWM resolution of the Microcontroller. Arduino Uno/Mega, Teensy is 8 bits by default
 
 #### 2.  output getRPM(float linear_x, float linear_y, float angular_z)
 Returns a Vector of Motor RPMs from a given linear velocity in x and y axis and angular velocity in z axis using right hand rule. The returned values can be used in a PID controller as "setpoint" vs a wheel encoder's feedback expressed in RPM.
