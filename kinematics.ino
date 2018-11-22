@@ -27,63 +27,67 @@
 
 #include "Kinematics.h"
 
-/*Kinematics(int motor_max_rpm, float wheel_diameter, float base_width, int pwm_bits)
-   motor_max_rpm = motor's maximum rpm
-   wheel_diameter = robot's wheel diameter expressed in meters
-   base_width = distance between two wheels expressed in meters
-   pwm_bits = microcontroller's PWM pin resolution. Arduino Uno/Mega Teensy is using 8 bits(0-255)
-*/
-Kinematics kinematics(90, 0.2, 0.5, 8);
+#define MOTOR_MAX_RPM 90        // motor's maximum rpm
+#define WHEEL_DIAMETER 0.2      // robot's wheel diameter expressed in meters
+#define FR_WHEEL_DISTANCE 0.6   // distance between front wheel and rear wheel
+#define LR_WHEEL_DISTANCE 0.5   // distance between left wheel and right wheel
+#define PWM_BITS 8              // microcontroller's PWM pin resolution. Arduino Uno/Mega Teensy is using 8 bits(0-255)
+
+Kinematics kinematics(MOTOR_MAX_RPM, WHEEL_DIAMETER, FR_WHEEL_DISTANCE, LR_WHEEL_DISTANCE, PWM_BITS);
 
 void setup() 
 {
-  Serial.begin(9600);
+    Serial.begin(9600);
 }
 
 void loop() 
 {
-  Kinematics::output rpm;
+    Kinematics::output rpm;
 
-  /*kinematics.getRPM(linear_x, linear_y, angular_z);
-    linear_x = target linear velocity in x axis (right hand rule)
-    linear_y = target linear velocity in y axis (right hand rule)
-    angular_z = target angular velocity in z axis (right hand rule)
-  */
-  //target velocities
-  float linear_vel_x = 1;
-  float linear_vel_y = 0;
-  float angular_vel_z = 1;
-  rpm = kinematics.getRPM(linear_vel_x, linear_vel_y, angular_vel_z);
+    //simulated required velocities
+    float linear_vel_x = 1;  // 1 m/s
+    float linear_vel_y = 0;  // 0 m/s
+    float angular_vel_z = 1; // 1 m/s
 
-  Serial.print(" FRONT LEFT MOTOR: ");
-  Serial.print(rpm.motor1);
+    //given the required velocities for the robot, you can calculate the rpm required for each motor
+    rpm = kinematics.getRPM(linear_vel_x, linear_vel_y, angular_vel_z);
 
-  Serial.print(" FRONT RIGHT MOTOR: ");
-  Serial.print(rpm.motor2);
+    Serial.print(" FRONT LEFT MOTOR: ");
+    // Assuming you have an encoder for each wheel, you can pass this RPM value to a PID controller 
+    // as a setpoint and your encoder data as a feedback.
+    Serial.print(rpm.motor1);
 
-  Serial.print(" REAR LEFT MOTOR: ");
-  Serial.print(rpm.motor3);
+    Serial.print(" FRONT RIGHT MOTOR: ");
+    Serial.print(rpm.motor2);
 
-  Serial.print(" REAR RIGHT MOTOR: ");
-  Serial.println(rpm.motor4);
+    Serial.print(" REAR LEFT MOTOR: ");
+    Serial.print(rpm.motor3);
 
-  delay(5000);
+    Serial.print(" REAR RIGHT MOTOR: ");
+    Serial.println(rpm.motor4);
+
+    delay(5000);
 
 
-  int motor1_feedback = rpm.motor1;//in rpm
-  int motor2_feedback = rpm.motor2; //in rpm
-  int motor3_feedback = rpm.motor3; //in rpm
-  int motor4_feedback = rpm.motor4; //in rpm
+    // This is a simulated feedback from each motor. We'll just pass the calculated rpm above for demo's sake.
+    // In a live robot, these should be replaced with real RPM values derived from encoder.
+    int motor1_feedback = rpm.motor1; //in rpm
+    int motor2_feedback = rpm.motor2; //in rpm
+    int motor3_feedback = rpm.motor3; //in rpm
+    int motor4_feedback = rpm.motor4; //in rpm
 
-  Kinematics::velocities vel;
-  vel = kinematics.getVelocities(motor1_feedback, motor2_feedback, motor3_feedback, motor4_feedback);
-  Serial.print(" VEL X: ");
-  Serial.print(vel.linear_x, 4);
+    Kinematics::velocities vel;
 
-  Serial.print(" VEL_Y: ");
-  Serial.print(vel.linear_y, 4);
+    // Now given the RPM from each wheel, you can calculate the linear and angular velocity of the robot.
+    // This is useful if you want to create an odometry data (dead reckoning)
+    vel = kinematics.getVelocities(motor1_feedback, motor2_feedback, motor3_feedback, motor4_feedback);
+    Serial.print(" VEL X: ");
+    Serial.print(vel.linear_x, 4);
 
-  Serial.print(" ANGULAR_Z: ");
-  Serial.println(vel.angular_z, 4);
-  Serial.println("");
+    Serial.print(" VEL_Y: ");
+    Serial.print(vel.linear_y, 4);
+
+    Serial.print(" ANGULAR_Z: ");
+    Serial.println(vel.angular_z, 4);
+    Serial.println("");
 }
