@@ -11,10 +11,11 @@ The library requires the following robot's specification as an input:
 
 #### 1. Kinematics::Kinematics(int motor_max_rpm, float wheel_diameter, float base_width, int pwm_bits)
 Object constructor which requires the robot's specification.
-  - motor_max_rpm : Maximum RPM of the motor
-  - wheel_diameter : Robot wheel's diameter expressed in meters
-  - base_width : Distance between wheels
-  - pwm_bits : PWM resolution of the Microcontroller. Arduino Uno/Mega, Teensy is 8 bits by default.
+  - MOTOR_MAX_RPM : Maximum RPM of the motor
+  - WHEEL_DIAMETER : Robot wheel's diameter expressed in meters
+  - FR_WHEEL_DISTANCE : Distance between front wheel and rear wheel
+  - LR_WHEEL_DISTANCE : Distance between left wheel and right wheel
+  - PWM_BITS : 
 
 #### 2.  output getRPM(float linear_x, float linear_y, float angular_z)
 Returns a Vector of Motor RPMs from a given linear velocity in x and y axis and angular velocity in z axis using right hand rule. The returned values can be used in a PID controller as "setpoint" vs a wheel encoder's feedback expressed in RPM.
