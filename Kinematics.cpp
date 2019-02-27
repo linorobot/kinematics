@@ -30,7 +30,7 @@
 
 Kinematics::Kinematics(int motor_max_rpm, float wheel_diameter, float fr_wheels_dist, float lr_wheels_dist, int pwm_bits):
   wheel_diameter_(wheel_diameter),
-  circumference_(PI * wheel_diameter_),
+  circumference_(PI * wheel_diameter),
   max_rpm_(motor_max_rpm),
   fr_wheels_dist_(fr_wheels_dist),
   lr_wheels_dist_(lr_wheels_dist),
