@@ -63,7 +63,6 @@ class Kinematics
     float y_rpm_;
     float tan_rpm_;
     int max_rpm_;
-    float wheel_diameter_;
     float fr_wheels_dist_;
     float lr_wheels_dist_;
     float pwm_res_;
